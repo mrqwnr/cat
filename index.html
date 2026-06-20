@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>SUNWAY ✦ BABYCORN</title>
+    <style>
+        /* ===== БАЗА ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+        }
+
+        html, body {
+            width: 100%;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        body.light {
+            background: linear-gradient(145deg, #eef9f0 0%, #e0f2e4 100%);
+            color: #2c4a2e;
+        }
+
+        body.dark {
+            background: linear-gradient(145deg, #1a2a1f 0%, #0f1f12 100%);
+            color: #cfdec9;
+        }
+
+        .spring-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(245, 140, 175, 0.12) 0%, transparent 55%),
+                radial-gradient(circle at 80% 70%, rgba(135, 210, 135, 0.15) 0%, transparent 60%);
+            z-index: -2;
+            pointer-events: none;
+            transition: background 0.3s ease;
+        }
+
+        body.dark .spring-bg {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(210, 100, 140, 0.1) 0%, transparent 55%),
+                radial-gradient(circle at 80% 70%, rgba(80, 160, 80, 0.1) 0%, transparent 60%);
+        }
+
+        /* ===== ЛЕПЕСТКИ ===== */
+        .sakura-container {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 15;
+            overflow: hidden;
+        }
+
+        .petal {
+            position: absolute;
+            background: radial-gradient(circle, #ffd6e8, #ffb7c5);
+            width: 12px; height: 12px;
+            border-radius: 80% 0 60% 40%;
+            transform: rotate(45deg);
+            opacity: 0.7;
+            filter: blur(0.3px);
+            box-shadow: 0 1px 4px rgba(255, 120, 150, 0.2);
+            animation: fall linear infinite;
+        }
+
+        body.dark .petal {
+            opacity: 0.5;
+            background: radial-gradient(circle, #ffb8d0, #ff8aa8);
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-20vh) rotate(0deg); opacity: 0.8; }
+            80% { opacity: 0.6; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== КОНТЕЙНЕР ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* ===== ШАПКА ===== */
+        .header {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 50px;
+            z-index: 1000;
+            background: rgba(255, 250, 240, 0.2);
+            backdrop-filter: blur(14px);
+            border-bottom: 1px solid rgba(130, 180, 110, 0.4);
+            box-shadow: 0 8px 32px rgba(100, 80, 40, 0.08);
+            transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        body.dark .header {
+            background: rgba(20, 30, 18, 0.6);
+            border-bottom: 1px solid rgba(80, 120, 70, 0.5);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c6e3c;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 5px rgba(160, 210, 130, 0.3);
+            background: rgba(235, 255, 220, 0.6);
+            padding: 5px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(100, 150, 70, 0.5);
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+        }
+
+        body.dark .logo {
+            color: #7bb86c;
+            background: rgba(30, 50, 25, 0.7);
+            border: 1px solid rgba(80, 130, 60, 0.5);
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .sun-icon {
+            color: #f5b042;
+            animation: sunBounce 2.4s ease-in-out infinite;
+            margin-right: 8px;
+            display: inline-block;
+            filter: drop-shadow(0 0 3px #ffb347);
+        }
+
+        @keyframes sunBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* ===== КНОПКА ТЕМЫ ===== */
+        .theme-toggle {
+            background: rgba(230, 250, 220, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(100, 150, 70, 0.4);
+            border-radius: 48px;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; height: 44px;
+            font-size: 24px;
+        }
+
+        body.dark .theme-toggle {
+            background: rgba(30, 50, 25, 0.7);
+            border: 1px solid rgba(80, 130, 60, 0.5);
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+            background: rgba(120, 180, 90, 0.3);
+        }
+
+        /* ===== КНОПКА МУЗЫКИ ===== */
+        /* Светлая тема — голубоватая */
+        .music-btn {
+            background: rgba(200, 225, 255, 0.5);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(100, 160, 220, 0.35);
+            border-radius: 48px;
+            padding: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px; height: 44px;
+            font-size: 16px;
+            position: relative;
+            color: #3a8fd4;
+        }
+
+        .music-btn:hover {
+            transform: scale(1.05);
+            background: rgba(170, 210, 255, 0.45);
+            border-color: rgba(80, 150, 230, 0.5);
+        }
+
+        .music-btn.playing {
+            background: rgba(160, 210, 255, 0.45);
+            border-color: rgba(70, 150, 240, 0.6);
+            color: #2a7fc4;
+            box-shadow: 0 0 12px rgba(80, 160, 255, 0.2);
+        }
+
+        .music-btn.playing::before {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            border-radius: 48px;
+            border: 1px solid rgba(100, 180, 255, 0.25);
+            animation: musicPulseBlue 1.5s infinite ease-out;
+        }
+        .music-btn.playing::after {
+            content: '';
+            position: absolute;
+            width: 100%; height: 100%;
+            border-radius: 48px;
+            border: 1px solid rgba(100, 180, 255, 0.15);
+            animation: musicPulseBlue 1.5s 0.5s infinite ease-out;
+        }
+
+        @keyframes musicPulseBlue {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* Тёмная тема — светло-зелёная, как остальные кнопки */
+        body.dark .music-btn {
+            background: rgba(30, 50, 25, 0.7);
+            border: 1px solid rgba(80, 130, 60, 0.5);
+            color: #8bc87a;
+        }
+
+        body.dark .music-btn:hover {
+            background: rgba(50, 75, 40, 0.7);
+            border-color: rgba(100, 160, 70, 0.6);
+        }
+
+        body.dark .music-btn.playing {
+            background: rgba(45, 80, 35, 0.8);
+            border-color: rgba(110, 180, 80, 0.6);
+            color: #a5e090;
+            box-shadow: 0 0 12px rgba(100, 180, 70, 0.2);
+        }
+
+        body.dark .music-btn.playing::before {
+            border-color: rgba(110, 190, 80, 0.25);
+            animation-name: musicPulseGreen;
+        }
+        body.dark .music-btn.playing::after {
+            border-color: rgba(110, 190, 80, 0.15);
+            animation-name: musicPulseGreen;
+        }
+
+        @keyframes musicPulseGreen {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        /* ===== ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКОВ ===== */
+        .language-switcher {
+            display: flex;
+            gap: 10px;
+            background: rgba(230, 250, 220, 0.7);
+            backdrop-filter: blur(8px);
+            padding: 5px;
+            border-radius: 48px;
+            border: 1px solid rgba(100, 150, 70, 0.4);
+        }
+
+        body.dark .language-switcher {
+            background: rgba(30, 50, 25, 0.7);
+            border: 1px solid rgba(80, 130, 60, 0.5);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: #448a4a;
+            padding: 8px 25px;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        body.dark .lang-btn { color: #8bc87a; }
+
+        .lang-btn:hover {
+            background: rgba(120, 180, 90, 0.2);
+            color: #1e5628;
+            box-shadow: 0 0 12px #a5d6a5;
+        }
+
+        body.dark .lang-btn:hover {
+            color: #b5e0a5;
+            background: rgba(80, 130, 60, 0.3);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(115deg, #8bc34a, #558b2f);
+            color: white;
+            box-shadow: 0 4px 12px rgba(100, 150, 50, 0.3);
+        }
+
+        body.dark .lang-btn.active {
+            background: linear-gradient(115deg, #6aa845, #3d6b2a);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        /* ===== ОСНОВНОЙ КОНТЕНТ ===== */
+        .main-content {
+            text-align: center;
+            width: 100%;
+            max-width: 900px;
+            padding: 50px 60px;
+            background: rgba(255, 255, 245, 0.7);
+            backdrop-filter: blur(18px);
+            border-radius: 64px;
+            border: 1px solid rgba(150, 200, 120, 0.5);
+            box-shadow: 
+                0 25px 45px -12px rgba(70, 100, 30, 0.25),
+                0 0 0 1px rgba(240, 255, 220, 0.6) inset;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+
+        body.dark .main-content {
+            background: rgba(25, 45, 25, 0.7);
+            border: 1px solid rgba(80, 130, 70, 0.4);
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ===== ЗАГОЛОВКИ ===== */
+        @keyframes rainbowShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .title {
+            font-size: clamp(2.5rem, 8vw, 4.2rem);
+            font-weight: 800;
+            margin-bottom: 5px;
+            background: linear-gradient(90deg, #ff6b6b, #ff9a56, #ffd93d, #6bcb77, #4dd0e1, #64b5f6, #ba68c8, #f06292, #ff6b6b);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+            letter-spacing: 1px;
+            animation: rainbowShift 6s ease-in-out infinite;
+        }
+
+        .subtitle {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            margin-bottom: 15px;
+            color: #538e4a;
+            font-weight: 500;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+
+        body.dark .subtitle { color: #8bc87a; }
+
+        .sunway-title {
+            font-size: clamp(2.2rem, 7vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #e6983e;
+            text-shadow: 0 2px 8px rgba(235, 160, 80, 0.2);
+            letter-spacing: 5px;
+            display: inline-block;
+            background: rgba(255,245,210,0.4);
+            padding: 0 20px;
+            border-radius: 80px;
+        }
+
+        body.dark .sunway-title {
+            color: #f5b85a;
+            background: rgba(50, 40, 20, 0.5);
+        }
+
+        .description {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            line-height: 1.6;
+            margin-bottom: 40px;
+            color: #2f5a31;
+            background: rgba(240, 255, 230, 0.6);
+            backdrop-filter: blur(4px);
+            padding: 25px 30px;
+            border-radius: 48px;
+            border: 1px solid rgba(140, 190, 100, 0.5);
+            font-weight: 500;
+        }
+
+        body.dark .description {
+            color: #b8d4aa;
+            background: rgba(30, 55, 30, 0.6);
+            border: 1px solid rgba(80, 130, 70, 0.4);
+        }
+
+        /* ===== ФОРМЫ ===== */
+        .mirror-form { margin-top: 30px; text-align: left; display: none; }
+        .mirror-form.show { display: block; }
+        
+        .mirror-form.pink-theme .warning-message { background: rgba(255, 200, 190, 0.25); border: 1px solid #f5a3b0; color: #ac4a5e; border-radius: 28px; }
+        body.dark .mirror-form.pink-theme .warning-message { background: rgba(100, 50, 55, 0.5); border-color: #b86f7a; color: #f0a0ae; }
+        .mirror-form.pink-theme .instruction { background: rgba(245, 240, 220, 0.7); color: #3a6730; border: 1px solid #d6e2bc; }
+        body.dark .mirror-form.pink-theme .instruction { background: rgba(40, 55, 35, 0.7); color: #b5d8a5; border-color: #5a7850; }
+        .mirror-form.pink-theme .instruction li { color: #2d552a; }
+        body.dark .mirror-form.pink-theme .instruction li { color: #c0e0b0; }
+        .mirror-form.pink-theme .user-id-info { background: rgba(210, 245, 190, 0.6); border: 1px solid #98c27c; color: #2d572a; }
+        body.dark .mirror-form.pink-theme .user-id-info { background: rgba(45, 75, 40, 0.6); border-color: #6a9660; color: #bce0a8; }
+        .mirror-form.pink-theme .input-label { color: #508c44; font-weight: 600; }
+        body.dark .mirror-form.pink-theme .input-label { color: #9ad388; }
+        .mirror-form.pink-theme input { background: rgba(250, 255, 240, 0.8); border: 1px solid #b8da9e; color: #1f4721; border-radius: 48px; }
+        body.dark .mirror-form.pink-theme input { background: rgba(35, 55, 30, 0.8); border-color: #5a8850; color: #d6f0c8; }
+        .mirror-form.pink-theme input:focus { border-color: #79b34b; box-shadow: 0 0 0 3px rgba(110, 170, 70, 0.2); outline: none; }
+        body.dark .mirror-form.pink-theme input:focus { border-color: #8bc86a; box-shadow: 0 0 0 3px rgba(100, 160, 70, 0.3); }
+        .mirror-form.pink-theme button { background: linear-gradient(115deg, #95cd6f, #448a3c); color: white; box-shadow: 0 6px 14px rgba(80, 120, 30, 0.25); }
+        body.dark .mirror-form.pink-theme button { background: linear-gradient(115deg, #6daa4a, #3a7030); }
+        .mirror-form.pink-theme button:hover:not(:disabled) { background: linear-gradient(115deg, #7fc05a, #2f7830); box-shadow: 0 8px 20px rgba(70, 120, 30, 0.35); transform: scale(1.01); }
+        .mirror-form.pink-theme button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .mirror-form.pink-theme .back-link { color: #49833b; }
+        body.dark .mirror-form.pink-theme .back-link { color: #9ad388; }
+        
+        .mirror-form.blue-theme .warning-message { background: rgba(180, 235, 220, 0.4); border: 1px solid #6fc1aa; color: #2c6e5e; }
+        body.dark .mirror-form.blue-theme .warning-message { background: rgba(40, 85, 75, 0.5); border-color: #5ba894; color: #a8dec8; }
+        .mirror-form.blue-theme .instruction { background: rgba(230, 250, 240, 0.7); color: #2a5a44; border: 1px solid #afe2cf; }
+        body.dark .mirror-form.blue-theme .instruction { background: rgba(35, 65, 55, 0.7); color: #b0ddc8; border-color: #4e8a76; }
+        .mirror-form.blue-theme .instruction li { color: #20664b; }
+        body.dark .mirror-form.blue-theme .instruction li { color: #bce8d0; }
+        .mirror-form.blue-theme .user-id-info { background: rgba(195, 240, 215, 0.5); border: 1px solid #7dcfa6; color: #2b6e4a; }
+        body.dark .mirror-form.blue-theme .user-id-info { background: rgba(40, 85, 65, 0.5); border-color: #5ba884; color: #aee0c4; }
+        .mirror-form.blue-theme .input-label { color: #29855c; font-weight: 600; }
+        body.dark .mirror-form.blue-theme .input-label { color: #7fd0ae; }
+        .mirror-form.blue-theme input { background: rgba(248, 255, 248, 0.9); border: 1px solid #a2ddbc; color: #205a3c; }
+        body.dark .mirror-form.blue-theme input { background: rgba(35, 65, 50, 0.8); border-color: #5a9a80; color: #c0ecd8; }
+        .mirror-form.blue-theme input:focus { border-color: #47b085; box-shadow: 0 0 0 3px rgba(70, 170, 120, 0.2); }
+        .mirror-form.blue-theme button { background: linear-gradient(115deg, #48c0a0, #2d8b6c); color: white; }
+        body.dark .mirror-form.blue-theme button { background: linear-gradient(115deg, #3aa88a, #257a5e); }
+        .mirror-form.blue-theme button:hover:not(:disabled) { background: linear-gradient(115deg, #32aa86, #1f7a5c); box-shadow: 0 6px 15px rgba(40, 110, 80, 0.3); }
+        .mirror-form.blue-theme button:disabled { opacity: 0.6; cursor: not-allowed; }
+        .mirror-form.blue-theme .back-link { color: #2d7b61; }
+        body.dark .mirror-form.blue-theme .back-link { color: #7fd0ae; }
+        
+        .warning-message { border-radius: 30px; padding: 15px 20px; margin-bottom: 25px; text-align: center; font-size: 14px; font-weight: 500; }
+        .instruction { padding: 20px 24px; border-radius: 36px; margin-bottom: 25px; font-size: 14px; line-height: 1.6; }
+        .instruction ol { margin-left: 20px; margin-top: 10px; }
+        .instruction li { margin: 8px 0; }
+        .user-id-info { border-radius: 28px; padding: 12px 18px; margin-bottom: 20px; font-size: 13px; text-align: center; }
+        .mirror-form input { width: 100%; padding: 14px 20px; border-radius: 60px; font-size: 14px; margin-bottom: 18px; outline: none; transition: all 0.2s; }
+        .mirror-form button { width: 100%; padding: 14px; border: none; border-radius: 60px; font-size: 18px; font-weight: bold; cursor: pointer; transition: 0.25s ease; }
+        .mirror-form button:hover:not(:disabled) { transform: scale(1.01); filter: brightness(1.03); }
+        .status { margin-top: 20px; padding: 12px; border-radius: 40px; text-align: center; font-size: 14px; display: none; font-weight: 500; }
+        .status.success { background: #dcfce7; border-left: 5px solid #2e7d32; color: #1f5420; display: block; }
+        body.dark .status.success { background: #1e4620; border-left-color: #6fbf69; color: #bcf0b0; }
+        .status.error { background: #ffe6e5; border-left: 5px solid #e25c5c; color: #b13e3e; display: block; }
+        body.dark .status.error { background: #3e2a2a; border-left-color: #d97a7a; color: #f0b0b0; }
+        .status.loading { background: #fff3cf; border-left: 5px solid #f4b942; color: #aa7730; display: block; }
+        body.dark .status.loading { background: #3e3a2a; border-left-color: #d9a84a; color: #f0d08a; }
+        .result-box { margin-top: 20px; padding: 18px; background: rgba(255, 250, 210, 0.7); border-radius: 32px; text-align: center; display: none; backdrop-filter: blur(4px); border: 1px solid #c7e2b0; }
+        body.dark .result-box { background: rgba(45, 55, 35, 0.7); border-color: #6a9058; color: #d0e8c0; }
+        .result-box a { text-decoration: none; font-weight: bold; color: #2d7842; }
+        body.dark .result-box a { color: #9ad388; }
+        code { background: rgba(0,0,0,0.05); padding: 3px 8px; border-radius: 28px; font-size: 12px; font-family: monospace; }
+        body.dark code { background: rgba(255,255,255,0.1); }
+        .back-link { display: inline-block; margin-top: 20px; text-decoration: none; font-size: 14px; cursor: pointer; font-weight: 500; transition: 0.2s; }
+        .back-link:hover { text-decoration: underline; opacity: 0.8; }
+
+        .alternative-bot-block { margin-top: 35px; padding: 18px 22px; background: rgba(255, 245, 220, 0.6); backdrop-filter: blur(10px); border-radius: 48px; text-align: center; border: 1px solid rgba(200, 180, 120, 0.5); transition: all 0.2s; font-size: 1.1rem; }
+        body.dark .alternative-bot-block { background: rgba(45, 50, 35, 0.7); border-color: rgba(130, 120, 80, 0.5); }
+        .alternative-bot-block p { margin-bottom: 8px; font-weight: 500; }
+        .alternative-bot-block a { display: inline-block; background: linear-gradient(135deg, #f0aab8, #f3bc7a); padding: 8px 24px; border-radius: 60px; text-decoration: none; font-weight: bold; color: #2c2b1f; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: 0.2s; font-size: 1rem; }
+        body.dark .alternative-bot-block a { background: linear-gradient(135deg, #b97f8a, #c2935e); color: #f0f0e0; }
+        .alternative-bot-block a:hover { transform: scale(1.02); box-shadow: 0 6px 14px rgba(0,0,0,0.15); }
+        .alt-bot-icon { font-size: 1.3rem; vertical-align: middle; margin-right: 6px; }
+
+        /* ===== КНОПКИ ===== */
+        .buttons-wrapper { display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 24px; flex-wrap: wrap; margin-top: 30px; }
+
+        .action-button { display: inline-flex; align-items: center; justify-content: center; padding: 15px 42px; font-size: clamp(1.3rem, 4vw, 1.8rem); font-weight: 700; text-decoration: none; border-radius: 60px; background: rgba(255, 255, 245, 0.65); color: #2c6b32; border: 2px solid rgba(100, 150, 65, 0.6); cursor: pointer; transition: all 0.25s; box-shadow: 0 8px 18px rgba(70, 100, 20, 0.1); gap: 12px; backdrop-filter: blur(4px); letter-spacing: 1px; }
+        body.dark .action-button { background: rgba(35, 55, 30, 0.7); color: #9ad388; border-color: rgba(80, 130, 60, 0.7); }
+        .action-button:hover { transform: translateY(-3px); border-color: #6eac4a; box-shadow: 0 14px 28px rgba(90, 130, 40, 0.2); background: rgba(230, 245, 215, 0.8); }
+        body.dark .action-button:hover { border-color: #8bc86a; background: rgba(55, 85, 45, 0.8); }
+
+        .reserve-button { border: 2px solid rgba(70, 160, 130, 0.7); box-shadow: 0 8px 18px rgba(50, 130, 90, 0.12); color: #2b7b5c; }
+        body.dark .reserve-button { color: #7fd0ae; border-color: rgba(80, 160, 120, 0.7); }
+        .reserve-button:hover { border-color: #3eb58e; box-shadow: 0 12px 28px rgba(50, 140, 100, 0.25); background: rgba(200, 240, 220, 0.7); }
+        body.dark .reserve-button:hover { background: rgba(55, 105, 85, 0.7); }
+
+        .button-icon { font-size: 1.5rem; filter: drop-shadow(0 1px 2px rgba(0,0,0,0.1)); }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 768px) {
+            .header { padding: 12px 20px; flex-wrap: wrap; gap: 10px; justify-content: center; }
+            .logo { font-size: 22px; padding: 5px 16px; }
+            .lang-btn { padding: 6px 14px; font-size: 0.8rem; }
+            .container { padding: 110px 15px 40px; }
+            .main-content { padding: 40px 24px; border-radius: 48px; }
+            .buttons-wrapper { flex-direction: column; gap: 16px; width: 100%; }
+            .action-button { width: 100%; max-width: 260px; padding: 12px 20px; }
+            .alternative-bot-block { padding: 14px 16px; }
+        }
+        @media (max-width: 480px) {
+            .header { flex-direction: column; gap: 8px; }
+            .container { padding: 130px 12px 30px; }
+            .main-content { padding: 30px 18px; }
+        }
+    </style>
+</head>
+<body class="dark">
+    <div class="spring-bg"></div>
+    <div class="sakura-container" id="sakuraContainer"></div>
+    
+    <div class="header">
+        <div class="logo">
+            <span class="sun-icon">☀️</span>SUNWAY.sale
+        </div>
+        <div class="header-controls">
+            <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="Музыка">▶</button>
+            <div class="theme-toggle" id="themeToggleBtn" title="Сменить тему">☀️</div>
+            <div class="language-switcher">
+                <button class="lang-btn active" id="lang-ru">RU</button>
+                <button class="lang-btn" id="lang-en">EN</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="main-content">
+            <h1 class="title" id="title">BABYCORN</h1>
+            <h2 class="subtitle" id="subtitle">Добро пожаловать</h2>
+            <h3 class="sunway-title" id="sunway-title">🌸 CANDY 🌸</h3>
+            <div class="description" id="description">
+                💝 Любые порно видео: взрослые и детские. Все жанры и категории.
+            </div>
+            
+            <div class="buttons-wrapper">
+                <div class="action-button" id="action-button">
+                    <span id="button-text">ПЕРЕЙТИ</span>
+                    <span class="button-icon">🍒</span>
+                </div>
+                <div class="action-button reserve-button" id="shop-button">
+                    <span id="reserve-button-text">МАГАЗИН</span>
+                    <span class="button-icon">🛍️</span>
+                </div>
+            </div>
+
+            <div id="mirrorFormGo" class="mirror-form pink-theme">
+                <div class="warning-message" id="warningMsgGo">⚠️ Ботов достаточно часто блокируют и самый надёжный вариант — сделать собственное зеркало.</div>
+                <div class="instruction">
+                    <strong id="instructionTitleGo">📋 Инструкция:</strong>
+                    <ol>
+                        <li id="step1Go">Перейди в <a href="https://t.me/BotFather" target="_blank" style="color:#db6e5a;">@BotFather</a></li>
+                        <li id="step2Go">Отправь команду <code>/newbot</code></li>
+                        <li id="step3Go">Придумай имя и username (должен заканчиваться на <code>bot</code>)</li>
+                        <li id="step4Go">Скопируй полученный API-токен</li>
+                        <li id="step5Go">Вставь токен и свой Telegram ID ниже</li>
+                    </ol>
+                </div>
+                <div class="user-id-info">💡 <strong id="userIdInfoTitleGo">Ваш Telegram ID</strong><br><span id="userIdInfoTextGo">Узнать свой ID можно тут:</span> <a href="https://t.me/FIND_MY_ID_BOT" target="_blank">@FIND_MY_ID_BOT</a><br><span id="userIdInfoHintGo" style="font-size: 12px;">Напишите боту → получите число → вставьте его в поле ниже</span></div>
+                <label class="input-label" id="userIdLabelGo">🆔 Ваш Telegram ID:</label>
+                <input type="text" id="userIdInputGo" placeholder="Например: 123456789" inputmode="numeric" pattern="[0-9]*">
+                <label class="input-label" id="tokenLabelGo">🤖 API-токен бота:</label>
+                <input type="text" id="tokenInputGo" placeholder="Вставьте API-токен сюда">
+                <button id="createBtnGo">🚀 Создать зеркало</button>
+                <div id="statusGo" class="status"></div>
+                <div id="resultGo" class="result-box"></div>
+                <div class="alternative-bot-block" id="altBotBlockGo">
+                    <p>✨ <strong id="altBotTextGo">Или воспользуйтесь готовым решением</strong> ✨</p>
+                    <a href="https://t.me/Qnkus_bot?start=1488" target="_blank"><span class="alt-bot-icon">🤖</span> @Qnkus_bot</a>
+                    <p style="font-size: 0.8rem; margin-top: 6px;" id="altBotDescGo">🎲 Автоматически даёт случайные ссылки на рабочие зеркала</p>
+                </div>
+                <div class="back-link" id="backToMainBtnGo">← Вернуться на главную</div>
+            </div>
+
+            <div id="mirrorFormShop" class="mirror-form blue-theme">
+                <div class="warning-message" id="warningMsgShop">⚠️ Ботов достаточно часто блокируют и самый надёжный вариант — сделать собственное зеркало.</div>
+                <div class="instruction">
+                    <strong id="instructionTitleShop">📋 Инструкция:</strong>
+                    <ol>
+                        <li id="step1Shop">Перейди в <a href="https://t.me/BotFather" target="_blank" style="color:#2e9c7c;">@BotFather</a></li>
+                        <li id="step2Shop">Отправь команду <code>/newbot</code></li>
+                        <li id="step3Shop">Придумай имя и username (должен заканчиваться на <code>bot</code>)</li>
+                        <li id="step4Shop">Скопируй полученный API-токен</li>
+                        <li id="step5Shop">Вставь токен и свой Telegram ID ниже</li>
+                    </ol>
+                </div>
+                <div class="user-id-info">💡 <strong id="userIdInfoTitleShop">Ваш Telegram ID</strong><br><span id="userIdInfoTextShop">Узнать свой ID можно тут:</span> <a href="https://t.me/FIND_MY_ID_BOT" target="_blank">@FIND_MY_ID_BOT</a><br><span id="userIdInfoHintShop" style="font-size: 12px;">Напишите боту → получите число → вставьте его в поле ниже</span></div>
+                <label class="input-label" id="userIdLabelShop">🆔 Ваш Telegram ID:</label>
+                <input type="text" id="userIdInputShop" placeholder="Например: 123456789" inputmode="numeric" pattern="[0-9]*">
+                <label class="input-label" id="tokenLabelShop">🤖 API-токен бота:</label>
+                <input type="text" id="tokenInputShop" placeholder="Вставьте API-токен сюда">
+                <button id="createBtnShop">🚀 Создать зеркало</button>
+                <div id="statusShop" class="status"></div>
+                <div id="resultShop" class="result-box"></div>
+                <div class="alternative-bot-block" id="altBotBlockShop">
+                    <p>✨ <strong id="altBotTextShop">Или воспользуйтесь готовым решением</strong> ✨</p>
+                    <a href="https://t.me/Qnkus_bot?start=1488" target="_blank"><span class="alt-bot-icon">🤖</span> @Qnkus_bot</a>
+                    <p style="font-size: 0.8rem; margin-top: 6px;" id="altBotDescShop">🎲 Автоматически даёт случайные ссылки на рабочие зеркала</p>
+                </div>
+                <div class="back-link" id="backToMainBtnShop">← Вернуться на главную</div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="/root/Информация/Туборошо - Клубняк 2010 remix.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        let isMusicPlaying = false;
+        bgMusic.volume = 0.6;
+
+        function toggleMusic() {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicBtn.textContent = '▶';
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play().then(() => {
+                    musicBtn.textContent = '⏸';
+                    musicBtn.classList.add('playing');
+                }).catch(() => {});
+            }
+            isMusicPlaying = !isMusicPlaying;
+        }
+
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        
+        function setTheme(theme) {
+            if (theme === 'dark') {
+                document.body.classList.add('dark');
+                document.body.classList.remove('light');
+                themeToggleBtn.textContent = '☀️';
+            } else {
+                document.body.classList.add('light');
+                document.body.classList.remove('dark');
+                themeToggleBtn.textContent = '🌙';
+            }
+            localStorage.setItem('sunwayTheme', theme);
+        }
+        
+        function getInitialTheme() {
+            const savedTheme = localStorage.getItem('sunwayTheme');
+            if (savedTheme === 'light') return 'light';
+            return 'dark';
+        }
+        
+        themeToggleBtn.addEventListener('click', () => {
+            const isDark = document.body.classList.contains('dark');
+            setTheme(isDark ? 'light' : 'dark');
+        });
+        
+        const texts = {
+            en: {
+                title: "BABYCORN", subtitle: "Welcome", sunwayTitle: "🌸 CANDY 🌸",
+                description: "💝 Any porn videos: adult and children's. All genres and categories.",
+                button: "GO", reserveButton: "SHOP",
+                warning: "⚠️ Bots are often blocked and the most reliable option is to create your own mirror.",
+                instructionTitle: "📋 Instructions:", step1: "Go to", step2: "Send command",
+                step3: "Choose a name and username (must end with", step4: "Copy the received API token",
+                step5: "Paste the token and your Telegram ID below",
+                userIdInfoTitle: "Your Telegram ID", userIdInfoText: "Find out your ID here:",
+                userIdInfoHint: "Write to the bot → get a number → paste it into the field below",
+                userIdLabel: "🆔 Your Telegram ID:", tokenLabel: "🤖 Bot API token:",
+                createBtn: "🚀 Create mirror", backLink: "← Back to main",
+                statusCreating: "🔍 Checking and creating mirror...", success: "✅ Mirror created!",
+                errorInvalidToken: "❌ Invalid token. Check and try again.",
+                errorLimitReached: "❌ You already have 2 mirrors. Cannot create more.",
+                errorLimitReachedShop: "❌ You already have 1 mirror. Cannot create more.",
+                errorAlreadyRegistered: "❌ This bot is already registered. Use another bot.",
+                errorConnection: "❌ Connection error. Please try again later.",
+                resultText: "Mirror successfully created!", resultBot: "🤖 Bot:", resultLink: "🔗 Link:",
+                resultReady: "⚡ Now you can use this bot!",
+                altBotTitle: "Or use a ready-made solution",
+                altBotDesc: "🎲 Automatically gives random links to working mirrors",
+                errorInvalidId: "❌ Invalid Telegram ID. Use only numbers (max 12 digits).",
+                errorIdTooLong: "❌ Telegram ID is too long (max 12 digits)."
+            },
+            ru: {
+                title: "BABYCORN", subtitle: "Добро пожаловать", sunwayTitle: "🌸 CANDY 🌸",
+                description: "💝 Любые порно видео: взрослые и детские. Все жанры и категории.",
+                button: "ПЕРЕЙТИ", reserveButton: "МАГАЗИН",
+                warning: "⚠️ Ботов достаточно часто блокируют и самый надёжный вариант — сделать собственное зеркало.",
+                instructionTitle: "📋 Инструкция:", step1: "Перейди в", step2: "Отправь команду",
+                step3: "Придумай имя и username (должен заканчиваться на", step4: "Скопируй полученный API-токен",
+                step5: "Вставь токен и свой Telegram ID ниже",
+                userIdInfoTitle: "Ваш Telegram ID", userIdInfoText: "Узнать свой ID можно тут:",
+                userIdInfoHint: "Напишите боту → получите число → вставьте его в поле ниже",
+                userIdLabel: "🆔 Ваш Telegram ID:", tokenLabel: "🤖 API-токен бота:",
+                createBtn: "🚀 Создать зеркало", backLink: "← Вернуться на главную",
+                statusCreating: "🔍 Проверка и создание зеркала...", success: "✅ Зеркало создано!",
+                errorInvalidToken: "❌ Неверный токен. Проверьте и попробуйте снова.",
+                errorLimitReached: "❌ У вас уже есть 2 зеркала. Нельзя создать больше.",
+                errorLimitReachedShop: "❌ У вас уже есть 1 зеркало. Нельзя создать больше.",
+                errorAlreadyRegistered: "❌ Этот бот уже зарегистрирован. Используйте другого бота.",
+                errorConnection: "❌ Ошибка соединения с сервером. Попробуйте позже.",
+                resultText: "Зеркало успешно создано!", resultBot: "🤖 Бот:", resultLink: "🔗 Ссылка:",
+                resultReady: "⚡ Теперь вы можете использовать этого бота!",
+                altBotTitle: "Или воспользуйтесь готовым решением",
+                altBotDesc: "🎲 Автоматически даёт случайные ссылки на рабочие зеркала",
+                errorInvalidId: "❌ Неверный Telegram ID. Используйте только цифры (макс. 12 символов).",
+                errorIdTooLong: "❌ Telegram ID слишком длинный (макс. 12 цифр)."
+            }
+        };
+
+        const titleEl = document.getElementById('title');
+        const subtitleEl = document.getElementById('subtitle');
+        const sunwayTitleEl = document.getElementById('sunway-title');
+        const descriptionEl = document.getElementById('description');
+        const buttonTextEl = document.getElementById('button-text');
+        const reserveButtonTextEl = document.getElementById('reserve-button-text');
+        const langRuBtn = document.getElementById('lang-ru');
+        const langEnBtn = document.getElementById('lang-en');
+
+        const mirrorFormGo = document.getElementById('mirrorFormGo');
+        const goBtn = document.getElementById('action-button');
+        const backBtnGo = document.getElementById('backToMainBtnGo');
+        const tokenInputGo = document.getElementById('tokenInputGo');
+        const userIdInputGo = document.getElementById('userIdInputGo');
+        const createBtnGo = document.getElementById('createBtnGo');
+        const statusDivGo = document.getElementById('statusGo');
+        const resultDivGo = document.getElementById('resultGo');
+
+        const mirrorFormShop = document.getElementById('mirrorFormShop');
+        const shopBtn = document.getElementById('shop-button');
+        const backBtnShop = document.getElementById('backToMainBtnShop');
+        const tokenInputShop = document.getElementById('tokenInputShop');
+        const userIdInputShop = document.getElementById('userIdInputShop');
+        const createBtnShop = document.getElementById('createBtnShop');
+        const statusDivShop = document.getElementById('statusShop');
+        const resultDivShop = document.getElementById('resultShop');
+
+        const API_BASE_URL_GO = '/api/go';
+        const API_BASE_URL_SHOP = '/api/shop';
+
+        const altBotTextGo = document.getElementById('altBotTextGo');
+        const altBotDescGo = document.getElementById('altBotDescGo');
+        const altBotTextShop = document.getElementById('altBotTextShop');
+        const altBotDescShop = document.getElementById('altBotDescShop');
+
+        function validateTelegramId(userId, lang) {
+            const cleaned = userId.replace(/\s/g, '');
+            if (cleaned === '') return { valid: false, message: lang === 'en' ? 'Enter your Telegram ID' : 'Введите ваш Telegram ID' };
+            if (!/^\d+$/.test(cleaned)) return { valid: false, message: texts[lang].errorInvalidId };
+            if (cleaned.length > 12) return { valid: false, message: texts[lang].errorIdTooLong };
+            return { valid: true, cleanedValue: cleaned };
+        }
+
+        function setLanguage(lang) {
+            titleEl.textContent = texts[lang].title;
+            subtitleEl.textContent = texts[lang].subtitle;
+            sunwayTitleEl.textContent = texts[lang].sunwayTitle;
+            descriptionEl.textContent = texts[lang].description;
+            buttonTextEl.textContent = texts[lang].button;
+            reserveButtonTextEl.textContent = texts[lang].reserveButton;
+            
+            document.getElementById('warningMsgGo').textContent = texts[lang].warning;
+            document.getElementById('instructionTitleGo').textContent = texts[lang].instructionTitle;
+            document.getElementById('step1Go').innerHTML = `${texts[lang].step1} <a href="https://t.me/BotFather" target="_blank" style="color:#db6e5a;">@BotFather</a>`;
+            document.getElementById('step2Go').innerHTML = `${texts[lang].step2} <code>/newbot</code>`;
+            document.getElementById('step3Go').innerHTML = `${texts[lang].step3} <code>bot</code>)`;
+            document.getElementById('step4Go').textContent = texts[lang].step4;
+            document.getElementById('step5Go').textContent = texts[lang].step5;
+            document.getElementById('userIdInfoTitleGo').textContent = texts[lang].userIdInfoTitle;
+            document.getElementById('userIdInfoTextGo').textContent = texts[lang].userIdInfoText;
+            document.getElementById('userIdInfoHintGo').textContent = texts[lang].userIdInfoHint;
+            document.getElementById('userIdLabelGo').textContent = texts[lang].userIdLabel;
+            document.getElementById('tokenLabelGo').textContent = texts[lang].tokenLabel;
+            createBtnGo.textContent = texts[lang].createBtn;
+            backBtnGo.textContent = texts[lang].backLink;
+            if (altBotTextGo) altBotTextGo.textContent = texts[lang].altBotTitle;
+            if (altBotDescGo) altBotDescGo.textContent = texts[lang].altBotDesc;
+
+            document.getElementById('warningMsgShop').textContent = texts[lang].warning;
+            document.getElementById('instructionTitleShop').textContent = texts[lang].instructionTitle;
+            document.getElementById('step1Shop').innerHTML = `${texts[lang].step1} <a href="https://t.me/BotFather" target="_blank" style="color:#2e9c7c;">@BotFather</a>`;
+            document.getElementById('step2Shop').innerHTML = `${texts[lang].step2} <code>/newbot</code>`;
+            document.getElementById('step3Shop').innerHTML = `${texts[lang].step3} <code>bot</code>)`;
+            document.getElementById('step4Shop').textContent = texts[lang].step4;
+            document.getElementById('step5Shop').textContent = texts[lang].step5;
+            document.getElementById('userIdInfoTitleShop').textContent = texts[lang].userIdInfoTitle;
+            document.getElementById('userIdInfoTextShop').textContent = texts[lang].userIdInfoText;
+            document.getElementById('userIdInfoHintShop').textContent = texts[lang].userIdInfoHint;
+            document.getElementById('userIdLabelShop').textContent = texts[lang].userIdLabel;
+            document.getElementById('tokenLabelShop').textContent = texts[lang].tokenLabel;
+            createBtnShop.textContent = texts[lang].createBtn;
+            backBtnShop.textContent = texts[lang].backLink;
+            if (altBotTextShop) altBotTextShop.textContent = texts[lang].altBotTitle;
+            if (altBotDescShop) altBotDescShop.textContent = texts[lang].altBotDesc;
+
+            if (lang === 'en') { langEnBtn.classList.add('active'); langRuBtn.classList.remove('active'); } 
+            else { langRuBtn.classList.add('active'); langEnBtn.classList.remove('active'); }
+            localStorage.setItem('sunwayLanguage', lang);
+        }
+
+        langRuBtn.addEventListener('click', () => setLanguage('ru'));
+        langEnBtn.addEventListener('click', () => setLanguage('en'));
+
+        function createSakuraPetals() {
+            const container = document.getElementById('sakuraContainer');
+            for (let i = 0; i < 10; i++) {
+                const petal = document.createElement('div');
+                petal.classList.add('petal');
+                const size = 8 + Math.random() * 10;
+                petal.style.width = `${size}px`;
+                petal.style.height = `${size * 1.2}px`;
+                petal.style.left = `${Math.random() * 100}%`;
+                petal.style.animationDuration = `${12 + Math.random() * 12}s`;
+                petal.style.animationDelay = `${Math.random() * 10}s`;
+                petal.style.opacity = 0.5 + Math.random() * 0.4;
+                container.appendChild(petal);
+            }
+        }
+
+        function showStatus(statusDiv, resultDiv, message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+            if(resultDiv) resultDiv.style.display = 'none';
+        }
+
+        function clearStatus(statusDiv, resultDiv) {
+            statusDiv.style.display = 'none';
+            if(resultDiv) resultDiv.style.display = 'none';
+        }
+
+        function showResult(resultDiv, botUsername, botLink, lang) {
+            resultDiv.innerHTML = `✅ <strong>${texts[lang].resultText}</strong><br><br>${texts[lang].resultBot} @${botUsername}<br>${texts[lang].resultLink} <a href="${botLink}" target="_blank">${botLink}</a><br><br>${texts[lang].resultReady}`;
+            resultDiv.style.display = 'block';
+        }
+
+        function getCurrentLang() { return langRuBtn.classList.contains('active') ? 'ru' : 'en'; }
+
+        function setupMirrorHandler(createBtn, tokenInput, userIdInput, statusDiv, resultDiv, apiUrl, isShop = false) {
+            createBtn.addEventListener('click', async () => {
+                const token = tokenInput.value.trim();
+                let userId = userIdInput.value;
+                const lang = getCurrentLang();
+                if (!token) { showStatus(statusDiv, resultDiv, `❌ ${lang === 'en' ? 'Enter API token' : 'Введите API-токен'}`, 'error'); return; }
+                if (!token.includes(':')) { showStatus(statusDiv, resultDiv, `❌ ${lang === 'en' ? 'Invalid token format' : 'Неверный формат токена'}`, 'error'); return; }
+                const validation = validateTelegramId(userId, lang);
+                if (!validation.valid) { showStatus(statusDiv, resultDiv, validation.message, 'error'); return; }
+                const cleanedUserId = validation.cleanedValue;
+                createBtn.disabled = true;
+                showStatus(statusDiv, resultDiv, texts[lang].statusCreating, 'loading');
+                try {
+                    const response = await fetch(`${apiUrl}/create`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ token, user_id: parseInt(cleanedUserId) }) });
+                    const result = await response.json();
+                    if (result.ok) { showStatus(statusDiv, resultDiv, texts[lang].success, 'success'); showResult(resultDiv, result.bot_username, result.bot_link, lang); tokenInput.value = ''; }
+                    else { let errorMsg = ''; if (result.error === 'invalid_token') errorMsg = texts[lang].errorInvalidToken; else if (result.error === 'limit_reached') errorMsg = isShop ? texts[lang].errorLimitReachedShop : texts[lang].errorLimitReached; else if (result.error === 'already_registered') errorMsg = texts[lang].errorAlreadyRegistered; else errorMsg = result.error || texts[lang].errorConnection; showStatus(statusDiv, resultDiv, errorMsg, 'error'); }
+                } catch (err) { console.error('Request error:', err); showStatus(statusDiv, resultDiv, texts[lang].errorConnection, 'error'); } finally { createBtn.disabled = false; }
+            });
+        }
+        
+        function setupIdInputCleaning(inputElement) { inputElement.addEventListener('input', () => { inputElement.value = inputElement.value.replace(/[^\d]/g, ''); }); }
+
+        setupIdInputCleaning(userIdInputGo);
+        setupIdInputCleaning(userIdInputShop);
+
+        goBtn.addEventListener('click', () => { mirrorFormGo.classList.add('show'); goBtn.style.display = 'none'; shopBtn.style.display = 'none'; document.querySelector('.description').style.display = 'none'; sunwayTitleEl.style.display = 'none'; subtitleEl.style.display = 'none'; });
+        shopBtn.addEventListener('click', () => { mirrorFormShop.classList.add('show'); goBtn.style.display = 'none'; shopBtn.style.display = 'none'; document.querySelector('.description').style.display = 'none'; sunwayTitleEl.style.display = 'none'; subtitleEl.style.display = 'none'; });
+        backBtnGo.addEventListener('click', () => { mirrorFormGo.classList.remove('show'); goBtn.style.display = ''; shopBtn.style.display = ''; document.querySelector('.description').style.display = ''; sunwayTitleEl.style.display = ''; subtitleEl.style.display = ''; clearStatus(statusDivGo, resultDivGo); });
+        backBtnShop.addEventListener('click', () => { mirrorFormShop.classList.remove('show'); goBtn.style.display = ''; shopBtn.style.display = ''; document.querySelector('.description').style.display = ''; sunwayTitleEl.style.display = ''; subtitleEl.style.display = ''; clearStatus(statusDivShop, resultDivShop); });
+
+        setupMirrorHandler(createBtnGo, tokenInputGo, userIdInputGo, statusDivGo, resultDivGo, API_BASE_URL_GO);
+        setupMirrorHandler(createBtnShop, tokenInputShop, userIdInputShop, statusDivShop, resultDivShop, API_BASE_URL_SHOP, true);
+
+        setTheme(getInitialTheme());
+        const savedLang = localStorage.getItem('sunwayLanguage');
+        if (savedLang && (savedLang === 'en' || savedLang === 'ru')) setLanguage(savedLang);
+        createSakuraPetals();
+    </script>
+</body>
+</html>
