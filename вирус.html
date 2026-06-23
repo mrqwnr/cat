@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Задания VirUs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #03050E;
+            background-image: 
+                radial-gradient(ellipse 80% 60% at 50% -10%, rgba(57, 255, 20, 0.15) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 110%, rgba(0, 229, 255, 0.1) 0%, transparent 60%);
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 60px 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+                radial-gradient(1px 1px at 60px 70px, #a0a0ff, transparent),
+                radial-gradient(2px 2px at 120px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 180px 90px, #fff, transparent),
+                radial-gradient(1px 1px at 250px 150px, #39ff14, transparent);
+            background-repeat: repeat;
+            background-size: 300px 300px;
+            opacity: 0.5;
+            animation: twinkle 5s infinite ease-in-out;
+            pointer-events: none;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        body > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ИСПРАВЛЕНО: УБРАНО СЛЕПЯЩЕЕ СВЕЧЕНИЕ С ЗАГОЛОВКА */
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1.5px;
+            line-height: 1;
+            text-align: center;
+            margin-bottom: 50px;
+            text-shadow: none;
+        }
+
+        .task {
+            position: relative;
+            border-radius: 24px;
+            padding: 36px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(57, 255, 20, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            background: linear-gradient(135deg, rgba(57, 255, 20, 0.08) 0%, rgba(3, 5, 14, 0.8) 60%);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            max-width: 840px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .task:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border-color: rgba(57, 255, 20, 0.3);
+        }
+
+        .task-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-top: 0;
+            margin-bottom: 24px;
+            font-weight: 700;
+        }
+
+        p {
+            margin-bottom: 18px;
+            color: #b0b0c0;
+            font-weight: 400;
+            font-size: 1.05rem;
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.95em;
+            display: inline;
+        }
+
+        .tg-link {
+            text-decoration: none;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 5px 0;
+            color: #39ff14;
+            background: rgba(57, 255, 20, 0.1);
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            white-space: nowrap; /* ИСПРАВЛЕНИЕ АДАПТАЦИИ */
+        }
+
+        .tg-link:hover {
+            color: #03050E;
+            border-color: transparent;
+            transform: translateY(-2px);
+            background: rgba(57, 255, 20, 0.85);
+            box-shadow: none;
+        }
+
+        /* ИСПРАВЛЕНО: ПОТУСКНЕНИЕ ФОНА, ЧЕТКИЙ ТЕКСТ */
+        .reward {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            color: #03050E;
+            padding: 3px 14px;
+            font-weight: 800;
+            margin: 0 4px;
+            font-size: 0.9em;
+            font-family: 'Sora', sans-serif;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            background: rgba(57, 255, 20, 0.85);
+            box-shadow: none;
+            text-shadow: none;
+            white-space: nowrap;
+        }
+
+        .reward:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        .important {
+            color: #ffffff;
+            font-weight: 500;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 24px;
+            padding: 18px 22px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .important::before {
+            content: '!';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            background: #ef4444;
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+        }
+
+        .emoji { font-size: 1.2em; vertical-align: middle; }
+        .manager-link { color: #b0b0c0; font-weight: 500; }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .task { padding: 24px; }
+            body { padding: 30px 15px; }
+        }
+    </style>
+</head>
+<body>
+    <h1><span class="emoji">🦠</span> Задания VirUs</h1>
+    
+    <div class="task">
+        <h2 class="task-title">1 Задание:</h2>
+        <p>Вам нужно выложить зазывающее видео (или фото) в какую-либо соц сеть. Содержание видео: в видео обязательно должна присутствовать ссылка на наш <span class="highlight">🔗Сайт - https://sunway.sale</span>. В описании - Хештеги <span class="highlight">#дп #цп #детскоепитание #детское #питание</span>.</p>
+        
+        <p>Можете делать сколько угодно и какие-либо видео, на ваш вкус и цвет. Но приведу пару примеров (их тоже можете использовать, но не забудьте на фото поставить актуальную ссылку): Примеры видео находятся тут - <a href="https://examles.best" class="tg-link">ЖМИ</a>.</p>
+        
+        <p>1 просмотр на видео = <span class="reward">0.5🦠 в VirUs</span>.</p>
+        
+        <p><span class="emoji">💸</span>За вознаграждением писать <span class="manager-link">@lotac6</span>. С ходу отправляете ссылку на видео и ждёте ответа. После проверки, мы выдадим вам 🦠 на счёт в боте. Если мы обнаружим какое-то нарушение, то это видео не будет засчитано, поэтому рекомендуем использовать наши шаблоны в своих видео, но не забудьте на фото поставить актуальную ссылку!</p>
+    </div>
+    
+    <div class="task">
+        <h2 class="task-title">2 Задание:</h2>
+        <p>1. Найдите в TikTok «детское питание», «цп» или «дп»</p>
+        <p>2. Оставьте 20 комментариев под 20 разными видео с ссылкой на наш сайт и какой-нибудь завлекающей фразой:</p>
+        <!-- ИСПРАВЛЕНО: ОБЪЕДИНЕНО В ОДИН АБЗАЦ -->
+        <p>"<span class="highlight">፯፱፪፰፪፲፪፯፪፱፫፯፫፱፫፯፫፱፫፯፫፱<br>https://sunway.sale - самое лучшее<br>፯፱፪፰፪፲፪፯፪፱፫፯፫፱፫፯፫፱፫፯፫፱</span>"</p>
+        <p>3. Лайкайте свои комментарии</p>
+        <p>4. Пришлите скриншоты всех комментариев (можно несколькими сообщениями)</p>
+        
+        <p><span class="emoji">🎁</span> Награда: <span class="reward">100🦠</span></p>
+        
+        <p class="important"><span class="emoji">⚠</span> Важно: Все комментарии на скриншотах должны быть четко видны!</p>
+        <!-- ИСПРАВЛЕНО: ПОДНЯТА ЯРКОСТЬ ТЕКСТА -->
+        <p style="margin-top:10px; color:#b0b0c0;">Скрины кидать менеджеру <span class="manager-link">@lotac6</span></p>
+    </div>
+    
+    <div class="task">
+        <h2 class="task-title">3 Задание:</h2>
+        <p>Вам нужно рассылать свою реферальную ссылку везде, где это только возможно. За 1 реферала вы получаете <span class="reward">8🦠</span>, а за достижения отметки в 25 и 100 рефералов, вы получите ещё и дополнительную награду в крупном объёме!</p>
+        
+        <p>Как её найти?: В VirUs нажимаете кнопку "Заработать🦠", далее - 4. 🔗 Приглашать друзей, далее копируем свою реферальную ссылку и рассылаем её абсолютно по всем чатам, соц сетям и тд и имеем много 🦠 на балансе <span class="emoji">😎</span>.</p>
+    </div>
+</body>
+</html>
