@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SunWay — Задания</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #03050E;
+            background-image: 
+                radial-gradient(ellipse 80% 60% at 50% -10%, rgba(124, 58, 237, 0.25) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 50% at 90% 110%, rgba(0, 229, 255, 0.15) 0%, transparent 60%);
+            color: #e0e0e0;
+            line-height: 1.7;
+            padding: 60px 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-image: 
+                radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+                radial-gradient(1px 1px at 60px 70px, #a0a0ff, transparent),
+                radial-gradient(2px 2px at 120px 40px, #fff, transparent),
+                radial-gradient(1px 1px at 180px 90px, #fff, transparent),
+                radial-gradient(1px 1px at 250px 150px, #00f3ff, transparent);
+            background-repeat: repeat;
+            background-size: 300px 300px;
+            opacity: 0.5;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 840px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-block {
+            margin-bottom: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        h1 {
+            font-family: 'Sora', sans-serif;
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: -1.5px;
+            line-height: 1;
+            text-shadow: none;
+        }
+
+        .status {
+            font-family: 'Sora', sans-serif;
+            font-size: 0.8rem;
+            color: #00f3ff;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            padding: 8px 14px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #00f3ff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #00f3ff;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        .task {
+            position: relative;
+            border-radius: 24px;
+            padding: 36px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .task-1 {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.08) 0%, rgba(3, 5, 14, 0.8) 60%);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 243, 255, 0.2);
+        }
+        .task-2 {
+            background: linear-gradient(135deg, rgba(188, 19, 254, 0.08) 0%, rgba(3, 5, 14, 0.8) 60%);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-color: rgba(188, 19, 254, 0.15);
+        }
+        .task-3 {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.08) 0%, rgba(3, 5, 14, 0.8) 60%);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            border-color: rgba(76, 175, 80, 0.15);
+        }
+
+        .task:hover { transform: translateY(-4px); }
+        .task-1:hover { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); border-color: rgba(0, 243, 255, 0.3); }
+        .task-2:hover { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); border-color: rgba(188, 19, 254, 0.3); }
+        .task-3:hover { box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); border-color: rgba(76, 175, 80, 0.3); }
+
+        .task-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .task-title::before {
+            content: attr(data-num);
+            font-size: 0.8rem;
+            color: #ffffff;
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .task-1 .task-title::before { background: #00f3ff; color: #03050E; box-shadow: 0 0 8px rgba(0, 243, 255, 0.2); }
+        .task-2 .task-title::before { background: #bc13fe; color: #ffffff; box-shadow: 0 0 8px rgba(188, 19, 254, 0.2); }
+        .task-3 .task-title::before { background: #4caf50; color: #ffffff; box-shadow: 0 0 8px rgba(76, 175, 80, 0.2); }
+
+        p {
+            margin-bottom: 18px;
+            color: #b0b0c0;
+            font-weight: 400;
+            font-size: 1.05rem;
+        }
+
+        .highlight {
+            color: #ffffff;
+            font-weight: 600;
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.95em;
+            display: inline;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .tg-link {
+            text-decoration: none;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin: 5px 0;
+            white-space: nowrap;
+        }
+
+        .task-1 .tg-link { color: #00f3ff; background: rgba(0, 243, 255, 0.1); border: 1px solid rgba(0, 243, 255, 0.3); }
+        .task-2 .tg-link { color: #d100ff; background: rgba(209, 0, 255, 0.1); border: 1px solid rgba(209, 0, 255, 0.3); }
+        .task-3 .tg-link { color: #4caf50; background: rgba(76, 175, 80, 0.1); border: 1px solid rgba(76, 175, 80, 0.3); }
+
+        .tg-link:hover {
+            color: #03050E;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: none;
+        }
+        .task-1 .tg-link:hover { background: #00f3ff; }
+        .task-2 .tg-link:hover { background: #d100ff; color: #fff; }
+        .task-3 .tg-link:hover { background: #4caf50; color: #fff; }
+
+        .reward {
+            display: inline-flex;
+            align-items: center;
+            vertical-align: middle;
+            color: #03050E;
+            padding: 3px 14px;
+            font-weight: 800;
+            margin: 0 4px;
+            font-size: 0.9em;
+            font-family: 'Sora', sans-serif;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            text-shadow: none;
+        }
+
+        .task-1 .reward { background: rgba(0, 243, 255, 0.85); box-shadow: none; }
+        .task-2 .reward { background: rgba(209, 0, 255, 0.85); color: #fff; box-shadow: none; }
+        .task-3 .reward { background: rgba(76, 175, 80, 0.85); box-shadow: none; }
+
+        .reward:hover { transform: scale(1.05); filter: brightness(1.1); }
+
+        .important {
+            color: #ffffff;
+            font-weight: 500;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-top: 24px;
+            padding: 18px 22px;
+            background: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 14px;
+            font-size: 0.95rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .important::before {
+            content: '!';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            min-width: 24px;
+            background: #ef4444;
+            color: #fff;
+            border-radius: 50%;
+            font-weight: 800;
+            font-size: 0.9rem;
+            box-shadow: 0 0 6px rgba(239, 68, 68, 0.3);
+        }
+
+        .manager-link {
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        .manager-note {
+            margin-top: 10px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .task { padding: 24px; }
+            body { padding: 30px 15px; }
+            .header-block { flex-direction: column; align-items: flex-start; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stars"></div>
+
+    <div class="container">
+        <div class="header-block">
+            <h1>Задания SunWay</h1>
+            <div class="status">Система вознаграждений</div>
+        </div>
+        
+        <div class="task task-1">
+            <h2 class="task-title" data-num="01">1 Задание:</h2>
+            <p>Вам нужно выложить зазывающее видео(или фото) в какую-либо соц сеть. Содержание видео: в видео обязательно должна присутствовать ссылка на наш <span class="highlight">🔗Сайт - https://sunway.sale</span>. В описании - Хештеги <span class="highlight">#дп #цп #детскоепитание #детское #питание</span>.</p>
+            
+            <p>Можете делать сколько угодно и какие-либо видео, на ваш вкус и цвет. Но приведу пару примеров (их тоже можете использовать, но не забудьте на фото поставить актуальную ссылку): Примеры видео находятся тут -&nbsp;<a href="https://examles.best" class="tg-link">ЖМИ</a>.</p>
+            
+            <p>1 просмотр на видео = <span class="reward">0.5💎 в SunWay</span></p>
+            
+            <p><span class="emoji">💸</span>За вознаграждением писать <span class="manager-link">@lotac6</span>. С ходу отправляете ссылку на видео и ждёте ответа. После проверки, мы выдадим вам 💎 на счёт в боте. Если мы обнаружим какое-то нарушение, то это видео не будет засчитано, поэтому рекомендуем использовать наши шаблоны в своих видео, но не забудьте на фото поставить актуальную ссылку!</p>
+        </div>
+        
+        <div class="task task-2">
+            <h2 class="task-title" data-num="02">2 Задание:</h2>
+            <p>1. Найдите в TikTok «детское питание», «цп» или «дп»</p>
+            <p>2. Оставьте 20 комментариев под 20 разными видео с ссылкой на наш сайт и какой-нибудь завлекающей фразой:</p>
+            <p>"<span class="highlight">፯፱፪፰፪፲፪፯፪፱፫፯፫፱፫፯፫፱፫፯፫፱<br>https://sunway.sale - самое лучшее<br>፯፱፪፰፪፲፪፯፪፱፫፯፫፱፫፯፫፱፫፯፫፱</span>"</p>
+            <p>3. Лайкайте свои комментарии</p>
+            <p>4. Пришлите скриншоты всех комментариев (можно несколькими сообщениями)</p>
+            
+            <p>🎁 Награда: <span class="reward">100💎</span></p>
+            
+            <p class="important">Важно: Все комментарии на скриншотах должны быть четко видны!</p>
+            <p class="manager-note">Скрины кидать менеджеру <span class="manager-link">@lotac6</span></p>
+        </div>
+        
+        <div class="task task-3">
+            <h2 class="task-title" data-num="03">3 Задание:</h2>
+            <p>Вам нужно рассылать свою реферальную ссылку везде, где это только возможно. За 1 реферала вы получаете <span class="reward">8💎</span>, а за достижения отметки в 25 и 100 рефералов, вы получите ещё и дополнительную награду в крупном объёме!</p>
+            
+            <p>Как её найти?: В SunWay нажимаете кнопку "Заработать💎", далее - "5. 🔗 Приглашать друзей", далее копируем свою реферальную ссылку и рассылаем её абсолютно по всем чатам, соц сетям и тд и имеем много 💎 на балансе 😎.</p>
+        </div>
+    </div>
+</body>
+</html>
